@@ -1,11 +1,35 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
 import MainLayout from '@/layouts/main'
+import { useEffect, useState } from 'react';
+import postServices from '@/services/axios';
+import commentServices from '@/services/axiosComment';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export async function getStaticProps() {
+  const res = await commentServices.getComments();
+  const comments = res.data;
+  return {
+    props: {
+      comments,
+    },
+  }
+}
+
+export default function Home({ comments }) {
+  const [listPost, setListPost] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const res = await postServices.getListPost();
+      setListPost(res.data);
+    }
+    fetchData();
+  }, []);
+  console.log("comments", comments);
+  //Calling in build time
+  
+
   return (
     <>
       <Head>
@@ -15,7 +39,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MainLayout>
-        <p className='text-lg font-bold'>Hello</p>
+        <p className='text-xl font-bold'>List User Posts</p>
+        <div>
+          { listPost.map( (post, index) => (
+            <p className="text-lg" key={index}>{post.title}</p>
+          ))}
+        </div>
+        <p className='text-xl font-bold mt-8'>List Comments</p>
+        <div>
+          { comments.map( (comment, index) => (
+            <p className="text-lg" key={index}>{comment.body}</p>
+          ))}
+        </div>
+
       </MainLayout>
     </>
   )

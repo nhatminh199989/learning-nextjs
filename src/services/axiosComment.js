@@ -3,10 +3,10 @@ import Api1Config from "@/config/Api1Config";
 
 const axiosInstance = axios.create(Api1Config);
 
-const postServices = {
-    getListPost: () => {
-        return axiosInstance.get('/posts');
+const commentServices = {
+    getComments: () => {
+        return axiosInstance.get('/comments');
     }
 }
 
-export default postServices;
+export default commentServices;
