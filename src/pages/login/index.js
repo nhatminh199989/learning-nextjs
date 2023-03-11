@@ -1,15 +1,17 @@
 import MainLayout from "@/layouts/main"
 import { useState } from "react"
 import { useDispatch } from "react-redux";
+import { loginAsync } from "@/store/auth/authSlice";
 
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        dispatch(login2());
+        const result = await dispatch(loginAsync({ username, password }));
+        console.log("Run ok", result.payload);
     };
 
     return (
@@ -31,7 +33,6 @@ export default function Login() {
                             onChange={(e) => setUsername(e.target.value)}
                             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                             placeholder="you@example.com"
-                            required
                         />
                         </div>
                     </div>
@@ -48,7 +49,6 @@ export default function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            required
                         />
                         </div>
                     </div>
