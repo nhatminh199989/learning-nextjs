@@ -21,6 +21,9 @@ export default function Home({ comments }) {
   const [listPost, setListPost] = useState([]);
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const [editId, setEditId] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [editAuthor, setEditAuthor] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -42,6 +45,21 @@ export default function Home({ comments }) {
     setListPost(newList.data);
   }
 
+  const editPost = async (post) => {
+    const res = await postServices.editPost(post.id, post);
+    const newList = await postServices.getListPost();
+    setListPost(newList.data);
+    setEditTitle("");
+    setEditAuthor("");
+    setEditId("");
+  }
+
+  const showEditForm = (post) => {
+    setEditId(post.id);
+    setEditTitle(post.title);
+    setEditAuthor(post.author);
+  }
+
   return (
     <>
       <Head>
@@ -53,6 +71,8 @@ export default function Home({ comments }) {
       <MainLayout>
         <p className='text-xl font-bold'>List User Posts</p>
         <div className="shadow-sm overflow-hidden my-8">
+          {/* Add form */}
+          
           <div className='flex justify-start items-start gap-4'>
             <div className="flex gap-6 justify-start items-center mb-8">
               <p>Title</p>
@@ -73,6 +93,30 @@ export default function Home({ comments }) {
               Add
             </button>
           </div>
+    
+          {/* Edit Form */}
+            
+          <div className='flex justify-start items-start gap-4'>
+            <div className="flex gap-6 justify-start items-center mb-8">
+              <p>Title</p>
+              <input onChange={(e) => setEditTitle(e.target.value)} value={editTitle}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                type="text" placeholder="Title"/>
+            </div>
+            <div className="flex gap-6 justify-start items-center mb-8">
+              <p>Author</p>
+              <input 
+                onChange={(e) => setEditAuthor(e.target.value)} value={editAuthor}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                type="text" placeholder="Author"/>
+            </div>
+            <button 
+              onClick={() => editPost({ id: editId, title: editTitle, author: editAuthor })}
+              className="bg-yellow-600 text-white py-2 px-4 rounded">
+              Edit
+            </button>
+          </div>
+
           <table className="border-collapse table-fixed w-full text-sm">
             <thead>
               <tr>
@@ -92,9 +136,10 @@ export default function Home({ comments }) {
                     <div className='flex items-center gap-4'>
                       <button className="bg-red-600 text-white py-2 px-4 rounded"
                         onClick={() => deletePost(post.id)}>
-                          Delete
+                        Delete
                       </button>
-                      <button className="bg-yellow-600 text-white py-2 px-4 rounded">
+                      <button className="bg-yellow-600 text-white py-2 px-4 rounded"
+                        onClick={() => showEditForm(post)}>
                         Edit
                       </button>
                     </div>

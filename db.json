@@ -1,35 +1,61 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "Post 1",
-      "author": "Author 1"
-    },
-    {
-      "id": 2,
-      "title": "Post 2",
-      "author": "Author 2"
-    },
-    {
       "id": 3,
-      "title": "Post 3",
-      "author": "Author 3"
+      "title": "Post 3 edit",
+      "author": "Author 3 e edu"
     },
     {
       "title": "post 4",
       "author": "author 4",
       "id": 4
+    },
+    {
+      "title": "post 4",
+      "author": "Author 4",
+      "id": 5
+    },
+    {
+      "title": "post 4",
+      "author": "Author 4",
+      "id": 9
     }
   ],
   "comments": [
-    { "id": 1, "body": "some comment 1", "postId": 1 },
-    { "id": 2, "body": "some comment 2", "postId": 2 }, 
-    { "id": 3, "body": "some comment 3", "postId": 3 },
-    { "id": 4, "body": "some comment 4", "postId": 4 },
-    { "id": 5, "body": "some comment 5", "postId": 4 },
-    { "id": 6, "body": "some comment 6", "postId": 4 }
+    {
+      "id": 3,
+      "body": "some comment 3",
+      "postId": 3
+    },
+    {
+      "id": 4,
+      "body": "some comment 4",
+      "postId": 4
+    },
+    {
+      "id": 5,
+      "body": "some comment 5",
+      "postId": 4
+    },
+    {
+      "id": 6,
+      "body": "some comment 6",
+      "postId": 4
+    }
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "users": [
+    {
+      "email": "minhnn1@mail.com",
+      "password": "$2a$10$6mQ/EvWdEB8PyilH9fL06OmGCV7HqewHY0PzNvT4u1fhysnDuHLdm",
+      "id": 1
+    },
+    {
+      "email": "minhnn2@mail.com",
+      "password": "$2a$10$jDCZ7efirYLVy4cPwHUEz.qWLP4/C09E.olP6Bl9M4blo23W5m3Nq",
+      "id": 2
+    }
+  ]
 }
