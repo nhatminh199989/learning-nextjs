@@ -20,6 +20,7 @@ export async function getStaticProps() {
 export default function Home({ comments }) {
   const [listPost, setListPost] = useState([]);
   const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -29,13 +30,16 @@ export default function Home({ comments }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("Chay vao day", title);
-  }, [title])
-
   const deletePost = async (id) => {
-    console.log("Chayj vaof ddy", id);
     const res = await postServices.deletePost(id);
+    const newList = await postServices.getListPost();
+    setListPost(newList.data);
+  }
+
+  const addPost = async (params = {}) => {
+    const res = await postServices.addPost(params);
+    const newList = await postServices.getListPost();
+    setListPost(newList.data);
   }
 
   return (
@@ -49,15 +53,25 @@ export default function Home({ comments }) {
       <MainLayout>
         <p className='text-xl font-bold'>List User Posts</p>
         <div className="shadow-sm overflow-hidden my-8">
-          <div className='flex justify-start items-center'>
+          <div className='flex justify-start items-start gap-4'>
             <div className="flex gap-6 justify-start items-center mb-8">
               <p>Title</p>
-              <input onChange={(e) => setTitle(e.target.value)} value={title} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title"/>
+              <input onChange={(e) => setTitle(e.target.value)} value={title}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                type="text" placeholder="Title"/>
             </div>
             <div className="flex gap-6 justify-start items-center mb-8">
-              <p>Title</p>
-              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title"/>
+              <p>Author</p>
+              <input 
+                onChange={(e) => setAuthor(e.target.value)} value={author}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                type="text" placeholder="Author"/>
             </div>
+            <button 
+              onClick={() => addPost({ title: title, author: author })}
+              className="bg-green-600 text-white py-2 px-4 rounded">
+              Add
+            </button>
           </div>
           <table className="border-collapse table-fixed w-full text-sm">
             <thead>
@@ -96,7 +110,6 @@ export default function Home({ comments }) {
             <p className="text-lg" key={index}>{comment.body}</p>
           ))}
         </div>
-
       </MainLayout>
     </>
   )

@@ -13,6 +13,9 @@ const postServices = {
     addPost: (params = {}) => {
         return axiosInstance.post(`/posts`, params);
     },
+    editPost: (params = {}) => {
+        return axiosInstance.put(`/posts`, params); 
+    },
 }
 
 export default postServices;
