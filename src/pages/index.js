@@ -19,6 +19,8 @@ export async function getStaticProps() {
 
 export default function Home({ comments }) {
   const [listPost, setListPost] = useState([]);
+  const [title, setTitle] = useState('');
+
   useEffect(() => {
     async function fetchData() {
       const res = await postServices.getListPost();
@@ -26,9 +28,15 @@ export default function Home({ comments }) {
     }
     fetchData();
   }, []);
-  console.log("comments", comments);
-  //Calling in build time
-  
+
+  useEffect(() => {
+    console.log("Chay vao day", title);
+  }, [title])
+
+  const deletePost = async (id) => {
+    console.log("Chayj vaof ddy", id);
+    const res = await postServices.deletePost(id);
+  }
 
   return (
     <>
@@ -40,10 +48,47 @@ export default function Home({ comments }) {
       </Head>
       <MainLayout>
         <p className='text-xl font-bold'>List User Posts</p>
-        <div>
-          { listPost.map( (post, index) => (
-            <p className="text-lg" key={index}>{post.title}</p>
-          ))}
+        <div className="shadow-sm overflow-hidden my-8">
+          <div className='flex justify-start items-center'>
+            <div className="flex gap-6 justify-start items-center mb-8">
+              <p>Title</p>
+              <input onChange={(e) => setTitle(e.target.value)} value={title} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title"/>
+            </div>
+            <div className="flex gap-6 justify-start items-center mb-8">
+              <p>Title</p>
+              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title"/>
+            </div>
+          </div>
+          <table className="border-collapse table-fixed w-full text-sm">
+            <thead>
+              <tr>
+                <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left w-[10%]">ID</th>
+                <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Title</th>
+                <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Author</th>
+                <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-slate-800">
+              { listPost.map((post, index) => (
+                <tr key={index}>
+                  <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400 w-[10%]">{ post.id }</td>
+                  <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{ post.title }</td>
+                  <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{ post.author }</td>
+                  <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+                    <div className='flex items-center gap-4'>
+                      <button className="bg-red-600 text-white py-2 px-4 rounded"
+                        onClick={() => deletePost(post.id)}>
+                          Delete
+                      </button>
+                      <button className="bg-yellow-600 text-white py-2 px-4 rounded">
+                        Edit
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <p className='text-xl font-bold mt-8'>List Comments</p>
         <div>
