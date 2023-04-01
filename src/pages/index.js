@@ -7,15 +7,15 @@ import commentServices from '@/services/axiosComment';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export async function getStaticProps() {
-  const res = await commentServices.getComments();
-  const comments = res.data;
-  return {
-    props: {
-      comments,
-    },
-  }
-}
+// export async function getStaticProps() {
+//   const res = await commentServices.getComments();
+//   const comments = res.data;
+//   return {
+//     props: {
+//       comments,
+//     },
+//   }
+// }
 
 export default function Home({ comments }) {
   const [listPost, setListPost] = useState([]);
@@ -25,13 +25,13 @@ export default function Home({ comments }) {
   const [editTitle, setEditTitle] = useState('');
   const [editAuthor, setEditAuthor] = useState('');
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await postServices.getListPost();
-      setListPost(res.data);
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const res = await postServices.getListPost();
+  //     setListPost(res.data);
+  //   }
+  //   fetchData();
+  // }, []);
 
   const deletePost = async (id) => {
     const res = await postServices.deletePost(id);
@@ -127,7 +127,7 @@ export default function Home({ comments }) {
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-slate-800">
-              { listPost.map((post, index) => (
+              {listPost.map((post, index) => (
                 <tr key={index}>
                   <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400 w-[10%]">{ post.id }</td>
                   <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{ post.title }</td>
@@ -151,7 +151,7 @@ export default function Home({ comments }) {
         </div>
         <p className='text-xl font-bold mt-8'>List Comments</p>
         <div>
-          { comments.map( (comment, index) => (
+          {(comments && comments.length) && comments.map( (comment, index) => (
             <p className="text-lg" key={index}>{comment.body}</p>
           ))}
         </div>
