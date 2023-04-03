@@ -1,9 +1,14 @@
 import Link from 'next/link'
 import { Navbar } from "flowbite-react";
+import LoginForm from '@/components/Login/LoginForm';
+import useToggle from '@/hooks/useToggle';
 
 export default function Header() {
+    const [showLoginForm, toggleLoginForm] = useToggle(false);
+
     return (
         <>  
+            { showLoginForm && <LoginForm />}            
             <div className='container mx-auto'>
                 <Navbar
                     fluid={true}
@@ -19,7 +24,7 @@ export default function Header() {
                             Flowbite
                         </span>
                     </Navbar.Brand>
-                    <Navbar.Toggle />
+                    <Navbar.Toggle />                    
                     <Navbar.Collapse>
                         <Link
                             href="/example-1"
@@ -35,9 +40,9 @@ export default function Header() {
                         <Navbar.Link href="/navbars">
                             Pricing
                         </Navbar.Link>
-                        <Navbar.Link href="/navbars">
-                            Contact
-                        </Navbar.Link>
+                        <div onClick={toggleLoginForm}>
+                            Đăng nhập
+                        </div>
                     </Navbar.Collapse>
                 </Navbar>
             </div>

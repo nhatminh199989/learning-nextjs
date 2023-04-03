@@ -1,5 +1,5 @@
 import axios from "axios";
-import Api1Config from "@/config/Api1Config";
+import Api1Config from "@/config/RealWorldApi";
 
 const axiosInstance = axios.create(Api1Config);
 

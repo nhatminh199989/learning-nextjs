@@ -8,11 +8,11 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const result = await dispatch(loginAsync({ username, password }));
-        console.log("Run ok", result.payload);
-    };
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const result = await dispatch(loginAsync({ username, password }));
+    //     console.log("Run ok", result.payload);
+    // };
 
     return (
         <>
