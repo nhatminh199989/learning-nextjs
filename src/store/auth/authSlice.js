@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import UserService from "@/services/UserService";
 
 // Async thunk to call login API
 // export const loginAsync = createAsyncThunk(
@@ -23,6 +24,8 @@ export const authSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
+      const login = UserService.login();
+      
       state.isLoggedIn = true;
       state.user = action.payload;
     },
@@ -30,7 +33,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.user = null;
     },
-    login2: () => {
+    userLogin: () => {
       console.log('login2');
     }
   },

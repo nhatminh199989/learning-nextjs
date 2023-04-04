@@ -1,5 +1,7 @@
+const baseURL = process.env.REAL_WORLD_API;
+
 const RealWorldApi = {
-    baseURL: `https://api.realworld.io/api`,
+    baseURL: baseURL,
     headers: {
         "Content-Type": "application/json"
     }

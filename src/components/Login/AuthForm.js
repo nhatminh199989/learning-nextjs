@@ -1,6 +1,5 @@
 import FormLayout from "@/layouts/FormLayout"
 import { useEffect, useState } from "react";
-import UserService from "@/services/UserService";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 
@@ -17,7 +16,7 @@ export default function AuthForm() {
 
                     {
                         (formType == 2) && <RegisterForm switchForm={setFormType}/>
-                    }                    
+                    }
                 </div>
             </FormLayout>
         </>
