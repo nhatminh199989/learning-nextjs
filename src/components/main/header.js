@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Navbar } from "flowbite-react";
-import LoginForm from '@/components/Login/LoginForm';
+import AuthForm from '@/components/Login/AuthForm';
 import useToggle from '@/hooks/useToggle';
 
 export default function Header() {
@@ -8,7 +8,7 @@ export default function Header() {
 
     return (
         <>  
-            { showLoginForm && <LoginForm />}            
+            { showLoginForm && <AuthForm />}
             <div className='container mx-auto'>
                 <Navbar
                     fluid={true}
@@ -40,8 +40,8 @@ export default function Header() {
                         <Navbar.Link href="/navbars">
                             Pricing
                         </Navbar.Link>
-                        <div onClick={toggleLoginForm}>
-                            Đăng nhập
+                        <div className="cursor-pointer" onClick={() => toggleLoginForm()}>
+                            Đăng nhập 1
                         </div>
                     </Navbar.Collapse>
                 </Navbar>
