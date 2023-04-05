@@ -23,11 +23,10 @@ export const authSlice = createSlice({
     user: null,
   },
   reducers: {
-    login: (state, action) => {
-      const login = UserService.login();
-      
-      state.isLoggedIn = true;
-      state.user = action.payload;
+    login: async (state, action) => {
+      console.log("action payload", action.payload);
+      const login = await UserService.loginUser(action.payload);
+      console.log("login payload", login);
     },
     logout: (state) => {
       state.isLoggedIn = false;

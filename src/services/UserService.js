@@ -1,11 +1,11 @@
-import axios from "axios";
-import RealWorldApi from "@/config/RealWorldApi";
-
-const axiosInstance = axios.create(RealWorldApi);
+import axiosInstance from "@/config/RealWorldApi";
 
 const UserService = {
     registerUser: (params= {}) => {
         return axiosInstance.post('/users', params);
+    },
+    loginUser: (params= {}) => {
+        return axiosInstance.post('/users/login', params);
     }
 }
 
