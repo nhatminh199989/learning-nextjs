@@ -23,9 +23,9 @@ export const authSlice = createSlice({
     user: null,
   },
   reducers: {
-    login: async (state, action) => {
+    login: (state, action) => {
       state.isLoggedIn = true;
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
     logout: (state) => {
       state.isLoggedIn = false;
