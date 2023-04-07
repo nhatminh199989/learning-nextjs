@@ -1,7 +1,6 @@
 import MainLayout from "@/layouts/main"
 import { useState } from "react"
 import { useDispatch } from "react-redux";
-import { loginAsync } from "@/store/auth/authSlice";
 
 export default function Login() {
     const [username, setUsername] = useState('');

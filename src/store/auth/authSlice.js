@@ -2,18 +2,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import UserService from "@/services/UserService";
 
 // Async thunk to call login API
-// export const loginAsync = createAsyncThunk(
-//   'auth/loginAsync',
-//   async ({ username, password }, thunkAPI) => {
-//     try {
-//       const response = await LoginService.login({ email: username, password });
-      
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   }
-// );
+export const loginAsync = createAsyncThunk(
+  'auth/loginUser',
+  async (params, thunkAPI) => {
+    try {
+      const login = await UserService.loginUser(params);
+      console.log(login);
+      return login;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -24,36 +24,34 @@ export const authSlice = createSlice({
   },
   reducers: {
     login: async (state, action) => {
-      console.log("action payload", action.payload);
-      const login = await UserService.loginUser(action.payload);
-      console.log("login payload", login);
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
     },
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
-    },
-    userLogin: () => {
-      console.log('login2');
-    }
+    }, 
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(loginAsync.pending, (state) => {
-  //       console.log("Chạy vào đây 1");
-  //       state.loading = true;
-  //     })
-  //     .addCase(loginAsync.fulfilled, (state, action) => {
-  //       state.loading = false;
-  //       console.log("Chạy vào đây 2");
-  //       state.user = action.payload;
-  //     })
-  //     .addCase(loginAsync.rejected, (state, action) => {
-  //       state.loading = false;
-  //       console.log("Chạy vào đây 3");
-  //       state.error = action.payload;
-  //     });
-  // },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginAsync.pending, (state) => {        
+        state.loading = true;
+        state.isLoggedIn = false;
+        state.user = null;
+      })
+      .addCase(loginAsync.fulfilled, (state, action) => {
+        const data = action.payload;
+        if (data?.success) {
+          state.user = data?.user;
+        }         
+      })
+      .addCase(loginAsync.rejected, (state) => {
+        state.loading = true;
+        state.isLoggedIn = false;
+        state.user = null;
+      });
+  },
 });
 
-export const { login, logout, login2 } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;

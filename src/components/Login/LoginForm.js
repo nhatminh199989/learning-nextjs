@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react";
-import { login } from "@/store/auth/authSlice";
+import { login, loginAsync } from "@/store/auth/authSlice";
 
 export default function LoginForm({
     switchForm,
@@ -17,7 +17,7 @@ export default function LoginForm({
                 password: password,
             }
         };
-        dispatch(login(params));
+        dispatch(loginAsync(params));
     }
     
     return (

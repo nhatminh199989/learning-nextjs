@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { loginAsync } from "@/store/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function RegisterForm({
     switchForm,
@@ -9,16 +11,17 @@ export default function RegisterForm({
     const [registerPassword, setRegPassword] = useState(""); 
     const [registerRepassword, setRegRepassword] = useState(""); 
     const [regError, setRegError] = useState([])
+    const dispatch = useDispatch();
 
     const submitRegisterForm = async () => {
-        const res = await UserService.registerUser({
+        const params = {
             "user": {
                 "username": registerUsername,
                 "email": registerEmail,
                 "password": registerRepassword,
             }
-        });
-        console.log("Create account: ", res)
+        };
+        dispatch(loginAsync(params));
     }
 
     useEffect(() => {
