@@ -1,23 +1,33 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react";
-import { login, loginAsync } from "@/store/auth/authSlice";
+import { loginAsync } from "@/store/auth/authSlice";
+import { toast } from 'react-toastify';
 
 export default function LoginForm({
     switchForm,
+    closeForm,
 }) {
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const submitForm = () => {
+    const submitForm = async () => {
         const params = {
             user: {
                 email: username,
                 password: password,
             }
         };
-        dispatch(loginAsync(params));
+        const data = await dispatch(loginAsync(params));
+        if (data?.payload?.error) {
+            toast.error("Login unsuccess",{ autoClose: 1000 });
+            return;
+        }
+        if (data?.payload?.success) {
+            toast.info("Login success",{ autoClose: 1000 });
+            closeForm();
+        }
     }
     
     return (

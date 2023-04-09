@@ -1,6 +1,8 @@
 import { Provider } from 'react-redux'
 import { wrapper } from '@/store/store'
 import '@/styles/globals.css'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, ...rest }) { 
   const { store, props } = wrapper.useWrappedStore(rest);
@@ -8,6 +10,7 @@ export default function App({ Component, ...rest }) {
   return (
     <Provider store={store}>
       <Component {...pageProps} />
+      <ToastContainer />
     </Provider>
   )
 }

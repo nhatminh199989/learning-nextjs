@@ -2,13 +2,16 @@ import Link from 'next/link'
 import { Navbar } from "flowbite-react";
 import AuthForm from '@/components/Login/AuthForm';
 import useToggle from '@/hooks/useToggle';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
     const [showLoginForm, toggleLoginForm] = useToggle(false);
-
+    const user = useSelector(state => state.auth.user);
+    console.log("global state user", user);
+    
     return (
         <>  
-            { showLoginForm && <AuthForm />}
+            { showLoginForm && <AuthForm closeForm={toggleLoginForm}/>}
             <div className='container mx-auto'>
                 <Navbar
                     fluid={true}
@@ -39,10 +42,19 @@ export default function Header() {
                         </Navbar.Link>
                         <Navbar.Link href="/navbars">
                             Pricing
-                        </Navbar.Link>
-                        <div className="cursor-pointer" onClick={() => toggleLoginForm()}>
-                            Đăng nhập 1
-                        </div>
+                        </Navbar.Link>                      
+                        {
+                            !user &&
+                            (<div className="cursor-pointer" onClick={() => toggleLoginForm()}>
+                                Đăng nhập
+                            </div>)                            
+                        }
+                        {
+                            user &&
+                            (<div>
+                                {user.username}
+                            </div>)                            
+                        }
                     </Navbar.Collapse>
                 </Navbar>
             </div>
