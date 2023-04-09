@@ -1,14 +1,19 @@
 import Link from 'next/link'
-import { Navbar } from "flowbite-react";
+import { Navbar, Dropdown } from "flowbite-react";
 import AuthForm from '@/components/Login/AuthForm';
 import useToggle from '@/hooks/useToggle';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '@/store/auth/authSlice';
 
 export default function Header() {
     const [showLoginForm, toggleLoginForm] = useToggle(false);
     const user = useSelector(state => state.auth.user);
-    console.log("global state user", user);
-    
+    const dispath = useDispatch();
+
+    const userLogout = () => {
+        dispath(logout());
+    }
+
     return (
         <>  
             { showLoginForm && <AuthForm closeForm={toggleLoginForm}/>}
@@ -28,33 +33,25 @@ export default function Header() {
                         </span>
                     </Navbar.Brand>
                     <Navbar.Toggle />                    
-                    <Navbar.Collapse>
-                        <Link
-                            href="/example-1"
-                        >
-                            Example-1
-                        </Link>
-                        <Navbar.Link href="/navbars">
-                            About
-                        </Navbar.Link>
-                        <Navbar.Link href="/navbars">
-                            Services
-                        </Navbar.Link>
-                        <Navbar.Link href="/navbars">
-                            Pricing
-                        </Navbar.Link>                      
+                    <Navbar.Collapse>      
                         {
-                            !user &&
-                            (<div className="cursor-pointer" onClick={() => toggleLoginForm()}>
-                                Đăng nhập
-                            </div>)                            
-                        }
-                        {
-                            user &&
-                            (<div>
-                                {user.username}
-                            </div>)                            
-                        }
+                            !user ?
+                            (
+                                <div className="cursor-pointer" onClick={() => toggleLoginForm()}>
+                                    Đăng nhập
+                                </div>
+                            )
+                            : 
+                            (<>
+                                <div className="cursor-pointer">
+                                    {user.username}
+                                </div>
+                                <div className="cursor-pointer" onClick={userLogout}>
+                                    Đăng xuất
+                                </div>
+                            </>
+                            )
+                        }                        
                     </Navbar.Collapse>
                 </Navbar>
             </div>

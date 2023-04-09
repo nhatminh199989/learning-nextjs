@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import UserService from "@/services/UserService";
 import Cookies from 'js-cookie';
+import { ACCESS_TOKEN, ACCESS_TOKEN_EXPIRE } from '@/config/CookieConfig';
 
 // Async thunk to call login API
 export const loginAsync = createAsyncThunk(
@@ -18,7 +19,6 @@ export const loginAsync = createAsyncThunk(
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    loading: false,
     isLoggedIn: false,
     user: null,
   },
@@ -30,6 +30,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
+      Cookies.remove(ACCESS_TOKEN);
     }, 
   },
   extraReducers: (builder) => {
@@ -45,12 +46,11 @@ export const authSlice = createSlice({
         if (userData?.success) {
           state.isLoggedIn = true;
           state.user = userData.data.user;
-          Cookies.set('access_token', userData.data.user.token, {expires: 365 });
+          Cookies.set(ACCESS_TOKEN, userData.data.user.token, {expires: ACCESS_TOKEN_EXPIRE });
         }     
       })
       .addCase(loginAsync.rejected, (state) => {
         state.loading = true;
-        state.isLoggedIn = false;
         state.user = null;
       });
   },

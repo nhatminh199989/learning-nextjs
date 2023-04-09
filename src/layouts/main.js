@@ -4,7 +4,6 @@ import useAuthJwt from "@/hooks/useAuth";
 
 export default function MainLayout({ children }) {
     const data = useAuthJwt();
-    console.log("Check for jwt", data);
 
     return (
         <>
